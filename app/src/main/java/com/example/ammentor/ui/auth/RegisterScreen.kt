@@ -43,7 +43,6 @@ fun RegisterScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.Center
         ) {
-            // Email Input
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
@@ -52,20 +51,14 @@ fun RegisterScreen(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 modifier = Modifier.fillMaxWidth()
             )
-
             Spacer(modifier = Modifier.height(8.dp))
-
-            // Username Input
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
                 label = { Text("GithubId") },
                 modifier = Modifier.fillMaxWidth()
             )
-
             Spacer(modifier = Modifier.height(8.dp))
-
-            // Password Input
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
@@ -76,8 +69,6 @@ fun RegisterScreen(
             )
 
             Spacer(modifier = Modifier.height(8.dp))
-
-            // Confirm Password Input
             OutlinedTextField(
                 value = confirmPassword,
                 onValueChange = { confirmPassword = it },
@@ -88,14 +79,10 @@ fun RegisterScreen(
             )
 
             Spacer(modifier = Modifier.height(16.dp))
-
-            // Display Error Message
             errorMessage?.let {
                 Text(text = it, color = MaterialTheme.colorScheme.error)
                 Spacer(modifier = Modifier.height(8.dp))
             }
-
-            // Register Button
             Button(
                 onClick = {
                     if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -110,14 +97,10 @@ fun RegisterScreen(
                         errorMessage = "Password must be at least 6 characters."
                         return@Button
                     }
-
-                    // Firebase Registration
                     auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 val userId = task.result?.user?.uid ?: return@addOnCompleteListener
-
-                                // Save user data to Firestore
                                 val user = hashMapOf(
                                     "username" to username,
                                     "email" to email,
@@ -141,10 +124,7 @@ fun RegisterScreen(
             ) {
                 Text("Register")
             }
-
             Spacer(modifier = Modifier.height(16.dp))
-
-            // Login Redirect
             TextButton(onClick = onLoginClick) {
                 Text("Already have an account? Log in")
             }
